@@ -52,11 +52,11 @@ Constraints may be any one of the following:
 
 Currently this only supports a few commands
 
-## "q" | "exit" | "quit"
+## `q` | `exit` | `quit`
 
 Exit the program
 
-## "h <query index | l>"
+## `h <query index | l>`
 
 Get the results from a previous memory scan. Takes the query index of the query
 to retrieve. Optionally, you can use `l` in place of the query index to get the
@@ -75,9 +75,21 @@ original query.
 
 ## `d[bwdqBWDQfF] <addr> [<number of bytes>]`
 
-Dump memory interpretered as a given type for a given number of bytes
+Dump memory interpreted as a given type for a given number of bytes
 
 ## `ss <addr> <length> <string>`
 
-Search for a `string` in a region of memory specified by `addr` and `length` (in bytes)
+Search for a `string` in a region of memory specified by `addr` and `length`
+(in bytes)
+
+## `m`
+
+Dump memory regions and their permissions.
+
+# Example
+
+![Example of mempeek](/screenshot.png)
+
+_Green values in the dump output indicate that the value is a valid pointer
+when cast to a `u64`_
 
