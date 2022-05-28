@@ -29,12 +29,12 @@ Types may be one of the following:
 
 Constraints may be any one of the following:
 
-- `=<val>`  - Equal to `<val>`
-- `!<val>`  - Not equal to `<val>`
-- `><val>`  - Greater than `<val>`
-- `>=<val>` - Greater than or equal to `<val>`
-- `<<val>`  - Less than `<val>`
-- `<=<val>` - Less than or equal to `<val>`
+- `=[val]`  - Equal to `[val]`
+- `![val]`  - Not equal to `[val]`
+- `>[val]`  - Greater than `[val]`
+- `>=[val]` - Greater than or equal to `[val]`
+- `<[val]`  - Less than `[val]`
+- `<=[val]` - Less than or equal to `[val]`
 
 Currently this only supports a few commands
 
