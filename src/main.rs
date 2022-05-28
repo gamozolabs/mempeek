@@ -6,7 +6,7 @@ pub mod constraint;
 use std::str::FromStr;
 use crate::int::*;
 use crate::constraint::*;
-use libmem::Memory;
+use libprocmem::Memory;
 use rustyline::Editor;
 use rustyline::error::ReadlineError;
 use quoted_strings::QuotedParts;
@@ -17,8 +17,8 @@ type Result<T> = std::result::Result<T, Error>;
 /// Error type
 #[derive(Debug)]
 pub enum Error {
-    /// Error interacting with libmem
-    Memory(libmem::Error),
+    /// Error interacting with libprocmem
+    Memory(libprocmem::Error),
 
     /// Failed to parse a signed value
     ParseSigned(std::num::ParseIntError),
