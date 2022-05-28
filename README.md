@@ -8,6 +8,11 @@ It uses `rustyline` to maintain a history of command line arguments which is
 persisted in the `.peekieboi` file. Allowing "up-arrow" to work across
 different runs of the tool!
 
+# Installing
+
+Simply run `cargo install mempeek` to install this tool! Then invoke it by
+running `mempeek <pid of process to introspect>`
+
 # Commands
 
 ## Types

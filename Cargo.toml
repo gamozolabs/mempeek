@@ -1,7 +1,7 @@
 [package]
 name = "mempeek"
 version = "0.1.1"
-edition = "2022"
+edition = "2021"
 license = "BSD-2-Clause"
 description = "A command line tool that resembles a debugger as well as Cheat Engine, to search for values in memory"
 documentation = "https://docs.rs/mempeek"
