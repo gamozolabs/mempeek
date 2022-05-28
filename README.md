@@ -15,6 +15,15 @@ running `mempeek <pid of process to introspect>`
 
 # Commands
 
+## Expression support
+
+I've added extremely basic support for expressions of various radix as well as
+add, subtract, multiply, and divide. No support for parenthesis (yet).
+
+This allows you to use an expression like `0x13370000+0o100*4` in any argument
+to a command which expects a constant value. _The default radix for numbers
+is 16, thus, hex unless you use an `0b`, `0o`, or `0d` prefix_
+
 ## Types
 
 Types may be one of the following:
