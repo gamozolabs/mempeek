@@ -53,7 +53,7 @@ Get the results from a previous memory scan. Takes the query index of the query
 to retrieve. Optionally, you can use `l` in place of the query index to get the
 most recent query results
 
-## `s[bwdqBWDQfF] <query #> <addr> <length> [constraints]`
+## `s[bwdqBWDQfF] <addr> <length> [constraints]`
 
 Scan memory for a value of a given type starting at `addr` for `length` bytes
 using `constraints`
