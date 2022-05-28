@@ -393,24 +393,16 @@ impl Scan {
             "sb" | "sw" | "sd" | "sq" |
             "sB" | "sW" | "sD" | "sQ" | "sf" | "sF" => {
                 // Search for a value
-                if command.len() <= 3 {
+                if command.len() <= 2 {
                     println!("s[bwdqBWDQfF] <addr> <length> [constraints]");
                     return Ok(());
                 }
 
-                // Get the address and size
-                let addr = parse_u64(&command[1])?;
-                let size = parse_usize(&command[2])?;
-
-                // Read the memory
-                let tmp = self.memory.read_slice::<u8>(addr, size)
-                    .map_err(Error::Memory)?;
-
                 // Create value associated with type
-                let mut value =
+                let value =
                     Value::default_from_letter(
                         command[0].as_bytes()[1] as char);
-
+                
                 // Create list of constraints
                 let mut constraints = Vec::new();
                 for constraint in &command[3..] {
@@ -418,17 +410,23 @@ impl Scan {
                         Constraint::from_str_value(constraint, Some(value))?);
                 }
 
-                // Go through memory
-                let mut matches = Vec::new();
-                for (ii, chunk) in tmp.chunks_exact(value.bytes()).enumerate(){
-                    // Update value
-                    value.from_le_bytes(chunk);
+                // Get the address and size
+                let addr = parse_u64(&command[1])?;
+                let size = parse_usize(&command[2])?;
+                let end  = addr + size as u64;
 
-                    // Check constraints
-                    if constraints.iter().all(|x| x.check(value)) {
-                        let addr = addr + ii as u64 * value.bytes() as u64;
-                        matches.push((addr, value));
+                let mut matches = Vec::new();
+                for mapping in self.memory.query_address_space()
+                        .map_err(Error::Memory)? {
+                    // Skip ranges not in bounds
+                    if mapping.end <= addr || mapping.base >= end {
+                        continue;
                     }
+
+                    let start = addr.max(mapping.base);
+                    let end   = end.min(mapping.end);
+                    self.search_memory(value, start, (end - start) as usize,
+                        &constraints, &mut matches)?;
                 }
 
                 // If we got matches, save them off
@@ -538,6 +536,27 @@ impl Scan {
             }
             _ => {
                 println!("Unknown command: {:?}", command);
+            }
+        }
+
+        Ok(())
+    }
+
+    fn search_memory(&mut self, mut value: Value, addr: u64, size: usize,
+            constraints: &[Constraint],
+            matches: &mut Vec<(u64, Value)>) -> Result<()> {
+        // Read the memory
+        let tmp = self.memory.read_slice::<u8>(addr, size)
+            .map_err(Error::Memory)?;
+        // Go through memory
+        for (ii, chunk) in tmp.chunks_exact(value.bytes()).enumerate(){
+            // Update value
+            value.from_le_bytes(chunk);
+
+            // Check constraints
+            if constraints.iter().all(|x| x.check(value)) {
+                let addr = addr + ii as u64 * value.bytes() as u64;
+                matches.push((addr, value));
             }
         }
 
