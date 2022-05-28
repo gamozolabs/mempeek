@@ -1,0 +1,18 @@
+[package]
+name = "mempeek"
+version = "0.1.0"
+edition = "2021"
+license = "BSD-2-Clause"
+description = "A command line tool that resembles a debugger as well as Cheat Engine, to search for values in memory"
+documentation = "https://docs.rs/mempeek"
+repository = "https://github.com/gamozolabs/mempeek"
+keywords = ["proc", "mem", "maps"]
+categories = ["os::linux-apis", "command-line-utilities"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+libprocmem = "*"
+quoted_strings = "0.1.0"
+rustyline = "*"
+
